@@ -6,7 +6,7 @@ spring:
       uri: mongodb://localhost:27017/test
 security:
   custom:
-    enableCaptcha: true
+    enableCaptcha: false
 captcha:
   kaptcha.textproducer.font.size: 35
   kaptcha.border: 'no'

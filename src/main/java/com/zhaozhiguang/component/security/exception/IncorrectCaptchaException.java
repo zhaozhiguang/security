@@ -1,4 +1,4 @@
-package com.zhaozhiguang.component.security.support;
+package com.zhaozhiguang.component.security.exception;
 
 import org.springframework.security.core.AuthenticationException;
 

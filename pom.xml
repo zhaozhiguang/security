@@ -92,6 +92,13 @@
             </exclusions>
         </dependency>
 
+        <!-- jwt -->
+        <dependency>
+            <groupId>com.zhaozhiguang.component</groupId>
+            <artifactId>jwt</artifactId>
+            <version>1.0</version>
+        </dependency>
+
     </dependencies>
 
     <build>

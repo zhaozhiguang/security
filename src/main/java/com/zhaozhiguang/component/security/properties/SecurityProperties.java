@@ -13,4 +13,7 @@ public class SecurityProperties {
         return enableCaptcha;
     }
 
+    public void setEnableCaptcha(boolean enableCaptcha) {
+        this.enableCaptcha = enableCaptcha;
+    }
 }
