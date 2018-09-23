@@ -27,8 +27,7 @@ public class JwtAuthenticationProvider implements AuthenticationProvider {
         if(userDetails==null){
             throw new UsernameNotFoundException("用户没找到");
         }
-        boolean matches = bCryptPasswordEncoder.matches(authentication.getCredentials().toString(), userDetails.getPassword());
-        if(!matches){
+        if(authentication.getCredentials() == null || !bCryptPasswordEncoder.matches(authentication.getCredentials().toString(), userDetails.getPassword())){
             throw new BadCredentialsException("密码错误");
         }
         if(userDetails.isAccountNonExpired()){

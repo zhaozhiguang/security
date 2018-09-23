@@ -99,11 +99,11 @@ public class LoginFilter extends AbstractAuthenticationProcessingFilter implemen
      * @return
      */
     private boolean checkJwt(HttpServletRequest request) {
-        String token = request.getHeader("token");
+        String token = request.getHeader("X-Token");
         try {
             DecodedJWT sercet = JWT.require(Algorithm.HMAC256("sercet")).build().verify(token);
-            User user = JSONObject.toJavaObject((JSONObject) sercet.getParameters().get("user"), User.class);
-            SecurityContextHolder.getContext().setAuthentication((Authentication) user);
+            Authentication user = JSONObject.toJavaObject((JSONObject) sercet.getParameters().get("user"), Authentication.class);
+            SecurityContextHolder.getContext().setAuthentication(user);
         } catch (Exception e) {
             return false;
         }

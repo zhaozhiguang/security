@@ -7,6 +7,7 @@ spring:
 security:
   custom:
     enableCaptcha: false
+    enableCors: false
 captcha:
   kaptcha.textproducer.font.size: 35
   kaptcha.border: 'no'
