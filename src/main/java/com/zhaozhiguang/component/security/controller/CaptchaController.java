@@ -1,4 +1,4 @@
-package com.zhaozhiguang.component.security.filter;
+package com.zhaozhiguang.component.security.controller;
 
 import com.google.code.kaptcha.Producer;
 import com.zhaozhiguang.component.jwt.JWT;
@@ -44,8 +44,7 @@ public class CaptchaController {
             ImageIO.write(image, "png", baos);
             byte[] bytes = baos.toByteArray();//转换成字节
             Base64.Encoder encoder = Base64.getEncoder();
-            String png_base64 =  "data:image/png;base64," + encoder.encode(bytes).toString().trim()
-                    .replaceAll("\n", "").replaceAll("\r", "");//转换成base64串 删除 \r\n
+            String png_base64 =  "data:image/png;base64," + encoder.encodeToString(bytes);
             Map map = new HashMap();
             map.put("captcha", png_base64);
             String sercet = JWT.create().withExpiresAt(dateUtil.fromLocalDateTime(dateUtil.currentAddSeconds(60)))

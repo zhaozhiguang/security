@@ -4,6 +4,37 @@ spring:
   data:
     mongodb:
       uri: mongodb://localhost:27017/test
+  datasource:
+    type: com.alibaba.druid.pool.DruidDataSource
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://127.0.0.1:3306/security?autoReconnect=true&useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=CONVERT_TO_NULL&useSSL=false&serverTimezone=UTC
+    username: root
+    password: 123456
+    druid:
+      initial-size: 5
+      min-idle: 5
+      max-active: 20
+      max-wait: 60000
+      time-between-eviction-runs-millis: 60000
+      min-evictable-idle-time-millis: 300000
+      validation-query: select 'x'
+      test-while-idle: true
+      test-on-borrow: false
+      test-on-return: false
+      pool-prepared-statements: false
+      max-pool-prepared-statement-per-connection-size: 20
+      web-stat-filter:
+        enabled: true
+        urlPattern: /*
+        exclusions: "*.js,*.jpg,*.png,*.gif,*.ico,*.css,/druid/*"
+        profile-enable: true
+      stat-view-servlet:
+        enabled: true
+        url-pattern: /druid/*
+        login-username: druid
+        login-password: druid
+        reset-enable: true
+#      aop-patterns: "com.zhaozhiguang.component.*"
 security:
   custom:
     enableCaptcha: false
@@ -18,3 +49,10 @@ captcha:
   kaptcha.obscurificator.impl: com.google.code.kaptcha.impl.ShadowGimpy
   kaptcha.noise.impl: com.google.code.kaptcha.impl.NoNoise
   kaptcha.textproducer.font.names: '宋体,楷体,微软雅黑'
+logging:
+  level:
+    root: info
+  file:
+    max-history: 7
+    max-size: 10MB
+  path: debug
