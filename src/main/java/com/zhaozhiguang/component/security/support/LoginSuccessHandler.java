@@ -30,7 +30,7 @@ public class LoginSuccessHandler implements AuthenticationSuccessHandler {
     @Override
     public void onAuthenticationSuccess(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Authentication authentication) throws IOException, ServletException {
         Map<String , Object> param = new HashMap<>();
-        param.put("user", authentication);
+        param.put("user", authentication.getPrincipal());
         String sercet = JWT.create().withExpiresAt(dateUtil.fromLocalDateTime(dateUtil.currentAddMin(30))).withParameters(param).sign(Algorithm.HMAC256("sercet"));
         httpServletResponse.setContentType("application/json;charset=utf-8");
         httpServletResponse.getWriter().write(JSON.toJSONString(Result.of(200, "登录成功", sercet)));

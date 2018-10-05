@@ -1,20 +1,23 @@
 package com.zhaozhiguang.component.security.filter;
 
+import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.zhaozhiguang.component.jwt.JWT;
 import com.zhaozhiguang.component.jwt.algorithms.Algorithm;
 import com.zhaozhiguang.component.jwt.interfaces.DecodedJWT;
 import com.zhaozhiguang.component.security.entity.JwtAuthenticationToken;
-import com.zhaozhiguang.component.security.entity.User;
+import com.zhaozhiguang.component.security.entity.SysUser;
 import com.zhaozhiguang.component.security.exception.NotLoginException;
 import com.zhaozhiguang.component.security.properties.SecurityProperties;
 import com.zhaozhiguang.component.security.exception.IncorrectCaptchaException;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.InternalAuthenticationServiceException;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.authentication.AbstractAuthenticationProcessingFilter;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
@@ -69,10 +72,10 @@ public class LoginFilter extends AbstractAuthenticationProcessingFilter implemen
     private JwtAuthenticationToken createToken(HttpServletRequest request, HttpServletResponse response) {
         String username = request.getParameter("username");
         String password = request.getParameter("password");
-        User user = new User();
-        user.setUserName(username);
-        user.setPassword(password);
-        return new JwtAuthenticationToken(user, false);
+        SysUser sysUser = new SysUser();
+        sysUser.setUserName(username);
+        sysUser.setPassWord(password);
+        return new JwtAuthenticationToken(sysUser, false);
     }
 
     /**
@@ -102,8 +105,8 @@ public class LoginFilter extends AbstractAuthenticationProcessingFilter implemen
         String token = request.getHeader("X-Token");
         try {
             DecodedJWT sercet = JWT.require(Algorithm.HMAC256("sercet")).build().verify(token);
-            Authentication user = JSONObject.toJavaObject((JSONObject) sercet.getParameters().get("user"), Authentication.class);
-            SecurityContextHolder.getContext().setAuthentication(user);
+            SysUser user = JSONObject.toJavaObject((JSONObject)sercet.getParameters().get("user"), SysUser.class);
+            SecurityContextHolder.getContext().setAuthentication(new JwtAuthenticationToken(user, true));
         } catch (Exception e) {
             return false;
         }

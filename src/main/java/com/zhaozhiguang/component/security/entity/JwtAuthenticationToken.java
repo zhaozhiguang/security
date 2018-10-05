@@ -2,12 +2,13 @@ package com.zhaozhiguang.component.security.entity;
 
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
 
 public class JwtAuthenticationToken implements Authentication {
 
-    private User user;
+    private UserDetails sysUser;
 
     private boolean authenticated;
 
@@ -15,29 +16,29 @@ public class JwtAuthenticationToken implements Authentication {
 
     }
 
-    public JwtAuthenticationToken(User user, boolean authenticated) {
-        this.user = user;
+    public JwtAuthenticationToken(UserDetails sysUser, boolean authenticated) {
+        this.sysUser = sysUser;
         this.authenticated = authenticated;
     }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return user.getAuthorities();
+        return sysUser.getAuthorities();
     }
 
     @Override
     public Object getCredentials() {
-        return user.getPassword();
+        return sysUser.getPassword();
     }
 
     @Override
     public Object getDetails() {
-        return user;
+        return sysUser;
     }
 
     @Override
     public Object getPrincipal() {
-        return user;
+        return sysUser;
     }
 
     @Override
@@ -52,7 +53,7 @@ public class JwtAuthenticationToken implements Authentication {
 
     @Override
     public String getName() {
-        return user.getUsername();
+        return sysUser.getUsername();
     }
 
 }

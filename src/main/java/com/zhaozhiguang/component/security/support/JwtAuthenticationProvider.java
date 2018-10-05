@@ -1,7 +1,7 @@
 package com.zhaozhiguang.component.security.support;
 
 import com.zhaozhiguang.component.security.entity.JwtAuthenticationToken;
-import com.zhaozhiguang.component.security.entity.User;
+import com.zhaozhiguang.component.security.entity.SysUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.*;
 import org.springframework.security.core.Authentication;
@@ -39,7 +39,7 @@ public class JwtAuthenticationProvider implements AuthenticationProvider {
         if(userDetails.isEnabled()){
             throw new DisabledException("账号已禁用");
         }
-        return new JwtAuthenticationToken((User) userDetails, true);
+        return new JwtAuthenticationToken(userDetails, true);
     }
 
     @Override
