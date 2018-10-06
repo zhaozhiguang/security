@@ -56,10 +56,22 @@ public class SysUser implements UserDetails {
     private LocalDateTime updateTime;
 
     /**
-     * 权限
+     * 权限(SpringSecurity控制)
      */
     @Transient
     private List<GrantedAuthority> authorities;
+
+    /**
+     * 角色
+     */
+    @Transient
+    private List<SysRole> roles;
+
+    /**
+     * 权限(前端显示)
+     */
+    @Transient
+    private List<SysPermissions> permissions;
 
     /**
      * 状态

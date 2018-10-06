@@ -1,6 +1,7 @@
 package com.zhaozhiguang.component.security.support;
 
 import com.zhaozhiguang.component.security.entity.SysPermissions;
+import com.zhaozhiguang.component.security.entity.SysRole;
 import com.zhaozhiguang.component.security.entity.SysUser;
 import com.zhaozhiguang.component.security.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,10 +25,13 @@ public class LoginUserDetailService implements UserDetailsService {
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         SysUser sysUser = userService.findByUserName(username);
         List<SysPermissions> permissions = userService.findPermissionsByUserId(sysUser.getId());
+        List<SysRole> roles = userService.findRolesByUserId(sysUser.getId());
         List<GrantedAuthority> collect = null;
         if(permissions != null && !permissions.isEmpty())
             collect = permissions.stream().map(sysPermissions -> (GrantedAuthority) sysPermissions).collect(Collectors.toList());
         sysUser.setAuthorities(collect);
+        sysUser.setRoles(roles);
+        sysUser.setPermissions(permissions);
         return sysUser;
     }
 

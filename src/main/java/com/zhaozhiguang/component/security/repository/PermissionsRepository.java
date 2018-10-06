@@ -11,10 +11,11 @@ import java.util.List;
  */
 public interface PermissionsRepository extends PagingAndSortingRepository<SysPermissions, Integer> {
 
-    @Query(nativeQuery = true, value = "select p.* from sys_role_permissions r left join sys_permissions p on r.permissions_id = p.id where r.role_id = ?1")
+    @Query(nativeQuery = true, value = "select p.* from sys_role_permissions r left join sys_permissions p on r.permissions_id = p.id " +
+            "where r.role_id = ?1 order by p.order_by asc")
     List<SysPermissions> findAllByRoleId(Integer roleId);
 
     @Query(nativeQuery = true,value = "select p.* from sys_user_role u left join sys_role_permissions r on u.role_id = r.role_id " +
-            "left join sys_permissions p on r.permissions_id = p.id where u.user_id = ?1")
+            "left join sys_permissions p on r.permissions_id = p.id where u.user_id = ?1 order by p.order_by asc")
     List<SysPermissions> findAllByUserId(Integer userId);
 }

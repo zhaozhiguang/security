@@ -21,7 +21,7 @@ drop table if exists sys_role;
 create table sys_role (
   id int(11) auto_increment not null,
   role_name varchar(255) not null comment '角色名',
-  order_by int(11) not null comment '排序',
+  order_by int(11) not null default 0 comment '排序',
   create_time datetime(6) not null comment '创建时间',
   update_time datetime(6) not null comment '修改时间',
   status tinyint not null default 0 comment '状态0:生效,1:失效',
@@ -52,7 +52,7 @@ create table sys_permissions (
   parent_id int(11) not null default 0 comment '父级id',
   type tinyint not null default 0 comment '类型,详见代码',
   icon_style varchar(255) comment '图标样式',
-  order_by int(11) not null comment '排序',
+  order_by int(11) not null default 0 comment '排序',
   create_time datetime(6) not null comment '创建时间',
   update_time datetime(6) not null comment '修改时间',
   status tinyint not null default 0 comment '状态0:生效,1:失效',

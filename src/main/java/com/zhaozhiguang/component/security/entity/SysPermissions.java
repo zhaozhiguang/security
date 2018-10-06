@@ -48,7 +48,7 @@ public class SysPermissions implements GrantedAuthority {
      */
     @Column(name = "type", nullable = false)
     @Enumerated(EnumType.ORDINAL)
-    private Type type = Type.URL;
+    private Type type = Type.MENU;
 
     /**
      * 图标
@@ -89,6 +89,10 @@ public class SysPermissions implements GrantedAuthority {
      * 类型
      */
     public enum Type {
+        /**
+         * 菜单
+         */
+        MENU,
         /**
          * url
          */

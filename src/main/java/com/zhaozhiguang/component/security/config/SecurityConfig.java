@@ -63,7 +63,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.apply(loginCustomDsl());
         http.authorizeRequests().antMatchers("/captcha", "/druid/**",
-                "/swagger-resources/**", "/v2/api-docs", "/static/**", "/swagger-ui.html", "/favicon.ico", "/webjars/springfox-swagger-ui/**")
+                "/swagger-resources/**", "/v2/api-docs", "/static/**", "/swagger-ui.html", "/**/favicon.ico",
+                "/webjars/springfox-swagger-ui/**")
                 .permitAll().anyRequest().authenticated();
         http.anonymous();
         http.csrf().disable();
