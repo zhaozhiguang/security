@@ -8,9 +8,12 @@ import com.zhaozhiguang.component.security.repository.RoleRepository;
 import com.zhaozhiguang.component.security.repository.UserRepository;
 import com.zhaozhiguang.component.security.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Set;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -30,12 +33,27 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<SysRole> findRolesByUserId(Integer userId) {
+    public Set<SysRole> findRolesByUserId(Integer userId) {
         return roleRepository.findAllByUserId(userId);
     }
 
     @Override
-    public List<SysPermissions> findPermissionsByUserId(Integer userId) {
+    public Set<SysPermissions> findPermissionsByUserId(Integer userId) {
         return permissionsRepository.findAllByUserId(userId);
+    }
+
+    @Override
+    public Page<SysUser> users(Pageable pageable) {
+        return userRepository.findAll(pageable);
+    }
+
+    @Override
+    public void saveUser(SysUser sysUser) {
+        userRepository.save(sysUser);
+    }
+
+    @Override
+    public void deleteUser(Integer id) {
+        userRepository.deleteById(id);
     }
 }

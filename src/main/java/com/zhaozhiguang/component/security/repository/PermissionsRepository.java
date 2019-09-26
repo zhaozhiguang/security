@@ -4,7 +4,7 @@ import com.zhaozhiguang.component.security.entity.SysPermissions;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.PagingAndSortingRepository;
 
-import java.util.List;
+import java.util.Set;
 
 /**
  * 权限
@@ -13,9 +13,9 @@ public interface PermissionsRepository extends PagingAndSortingRepository<SysPer
 
     @Query(nativeQuery = true, value = "select p.* from sys_role_permissions r left join sys_permissions p on r.permissions_id = p.id " +
             "where r.role_id = ?1 order by p.order_by asc")
-    List<SysPermissions> findAllByRoleId(Integer roleId);
+    Set<SysPermissions> findAllByRoleId(Integer roleId);
 
     @Query(nativeQuery = true,value = "select p.* from sys_user_role u left join sys_role_permissions r on u.role_id = r.role_id " +
             "left join sys_permissions p on r.permissions_id = p.id where u.user_id = ?1 order by p.order_by asc")
-    List<SysPermissions> findAllByUserId(Integer userId);
+    Set<SysPermissions> findAllByUserId(Integer userId);
 }

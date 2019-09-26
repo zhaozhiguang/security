@@ -1,10 +1,13 @@
 package com.zhaozhiguang.component.security.entity;
 
 import lombok.Data;
+import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.Where;
 import org.springframework.security.core.GrantedAuthority;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.Set;
 
 /**
  * 权限
@@ -13,6 +16,8 @@ import java.time.LocalDateTime;
 @Data
 @Entity
 @Table(name = "sys_permissions", indexes = { @Index(name = "parent_id_index", columnList = "parent_id")})
+@Where(clause = "status = 0")
+@SQLDelete(sql = "update sys_permissions set status = 1 where id = ?")
 public class SysPermissions implements GrantedAuthority {
 
     @Id
@@ -80,6 +85,10 @@ public class SysPermissions implements GrantedAuthority {
     @Column(name = "update_time", nullable = false)
     private LocalDateTime updateTime;
 
+    @Transient
+    @ManyToMany(mappedBy = "permissions", fetch = FetchType.EAGER)
+    private Set<SysRole> roles;
+
     @Override
     public String getAuthority() {
         return permissionsTag;
@@ -101,6 +110,17 @@ public class SysPermissions implements GrantedAuthority {
          * 按钮
          */
         BUTTON
+    }
+
+    @PrePersist
+    public void persist () {
+        this.createTime = LocalDateTime.now();
+        this.updateTime = LocalDateTime.now();
+    }
+
+    @PreUpdate
+    public void update () {
+        this.updateTime = LocalDateTime.now();
     }
 
 }

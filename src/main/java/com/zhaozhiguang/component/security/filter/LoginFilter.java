@@ -1,6 +1,5 @@
 package com.zhaozhiguang.component.security.filter;
 
-import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.zhaozhiguang.component.jwt.JWT;
 import com.zhaozhiguang.component.jwt.algorithms.Algorithm;
@@ -10,14 +9,12 @@ import com.zhaozhiguang.component.security.entity.SysUser;
 import com.zhaozhiguang.component.security.exception.NotLoginException;
 import com.zhaozhiguang.component.security.properties.SecurityProperties;
 import com.zhaozhiguang.component.security.exception.IncorrectCaptchaException;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.InternalAuthenticationServiceException;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.authentication.AbstractAuthenticationProcessingFilter;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 

@@ -1,6 +1,9 @@
 package com.zhaozhiguang.component.security.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
+import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.Where;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -8,6 +11,7 @@ import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.List;
+import java.util.Set;
 
 /**
  * 用户领域对象
@@ -16,6 +20,7 @@ import java.util.List;
 @Data
 @Entity
 @Table(name = "sys_user", indexes = { @Index(name = "user_name_index", columnList = "user_name")})
+@SQLDelete(sql = "update sys_user set status = 1 where id = ?")
 public class SysUser implements UserDetails {
 
     /**
@@ -59,19 +64,24 @@ public class SysUser implements UserDetails {
      * 权限(SpringSecurity控制)
      */
     @Transient
+    @JsonIgnore
     private List<GrantedAuthority> authorities;
 
     /**
      * 角色
      */
     @Transient
-    private List<SysRole> roles;
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(name = "sys_user_role",
+            joinColumns = {@JoinColumn(name = "user_id")},
+            inverseJoinColumns = {@JoinColumn(name = "role_id")})
+    private Set<SysRole> roles;
 
     /**
      * 权限(前端显示)
      */
     @Transient
-    private List<SysPermissions> permissions;
+    private Set<SysPermissions> permissions;
 
     /**
      * 状态
@@ -139,5 +149,16 @@ public class SysUser implements UserDetails {
          * 凭证过期
          */
         CredentialsNonExpired
+    }
+
+    @PrePersist
+    public void persist () {
+        this.createTime = LocalDateTime.now();
+        this.updateTime = LocalDateTime.now();
+    }
+
+    @PreUpdate
+    public void update () {
+        this.updateTime = LocalDateTime.now();
     }
 }
